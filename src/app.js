@@ -1,33 +1,22 @@
-import React, {Component} from 'react';
-import {AppRegistry} from 'react-native';
-import {Container, Header, Content, Card, CardItem, Text, Body} from 'native-base';
+import {connect} from 'react-redux';
+import {addTodo, toggleTodo, removeTodo, setVisibilityFilter} from './action';
+import Todo from './components/todo';
 
-
-class App extends Component {
-  render() {
-    return (
-      <Container>
-        <Header/>
-        <Content>
-          <Card>
-            <CardItem header>
-              <Text>NativeBase</Text>
-            </CardItem>
-            <CardItem>
-              <Body>
-              <Text>
-                //Your text here
-              </Text>
-              </Body>
-            </CardItem>
-            <CardItem footer>
-              <Text>GeekyAnts</Text>
-            </CardItem>
-          </Card>
-        </Content>
-      </Container>
-    );
-  }
+function mapStateToProps(state) {
+  return {
+    todos: state.todos,
+    displayType: state.displayType
+  };
 }
 
-AppRegistry.registerComponent('todo', () => App);
+
+function mapDispatchToProps(dispatch){
+  return {
+    addTodo: payload => dispatch(addTodo(payload)),
+    toggleTodo: index => dispatch(toggleTodo(index)),
+    removeTodo: index => dispatch(removeTodo(index)),
+    setVisibilityFilter: displayType => dispatch(setVisibilityFilter(displayType)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Todo);
